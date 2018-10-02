@@ -1,0 +1,20 @@
+HTTP/1.1 400 Bad Request
+Egh-CorrelationId: d876a747-c629-47fc-8596-f105e81af916
+Egh-ExceptionName: 
+Egh-ExceptionCode: 1
+Egh-Result: BusinessError
+Egh-MessageId: 56124528-027c-4466-86f4-bb7be3aa4103
+Egh-ExceptionText: Der zu bearbeitende Kunde wurde bereits von einem anderen User geändert-Differenz bei FAB-Prüfung
+Content-Length: 161
+Content-Type: application/json
+Date: Tue, 21 Nov 2017 13:13:03 GMT
+
+{
+    "customerUpdateOut":{
+        "customerId":null,
+        "resultInfo":{
+            "resultInfoNum":0,
+            "resultInfoText":null
+        }
+    }
+}

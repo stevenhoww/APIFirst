@@ -1,0 +1,252 @@
+POST /B0301_KDB/CustomerCore/OAuth/CustomerCoreV1/updateCustomer HTTP/1.1
+Content-Type: application/json
+Egh-MessageId: ${UUID}
+Egh-MessageTimestamp: 
+Egh-Application: POM
+Egh-InstitutionId: 282
+Egh-Environment: A
+Egh-BusinessUser: TESTUSER
+Authorization: Bearer 58fc93b5-5c44-4763-9589-b57e07825339
+Host: esb.fat.imcplus.net
+Content-Length: 7363
+Accept-Encoding: gzip, deflate
+Connection: Keep-Alive
+Connection: Keep-Alive
+
+
+{
+  "customerUpdateIn": {
+    "supressTodoAdr": true,
+    "customer": {
+      "customerIdentifier": "D133FAB225B5FA04",
+      "customerType": "P",
+      "customerShortCode": "MASSENDKU207",
+      "customerShortNameU": "MassenDChrwFiMu KundeCiIQbm      88",
+      "nationalities": [
+        {
+          "iSOCodeNationality": "AT"
+        }
+      ],
+      "creditorID": null,
+      "envelopeTitleAuto": true,
+      "envelopeTitleU": "Herrn",
+      "envelopeNameAuto": true,
+      "envelopeNameU": [
+        "KundeCiIQbm MassenDChrwFiMu        "
+      ],
+      "faoNameAuto": true,
+      "faoNameU": "Hrn. K. MassenDChrwFiMu",
+      "letterNameU": "Sehr geehrter Herr MassenDChrwFiMu",
+      "customerClassAutoYN": true,
+      "customerClass": "RETNATP",
+      "customerStatus": "BEST",
+      "responsibleOUIdentifier": "CC4BDD2A66A3250C",
+      "advisorCategory": "I",
+      "advisorSubCategory": null,
+      "advisorSubCategoryDate": "",
+      "advisorSubCategorySource": null,
+      "personGroup": "PR",
+      "personSubGroup": "Ã–ffD",
+      "iSOCodeRiskCountry": "AT",
+      "ratingCode": "C1",
+      "ratingSince": "2016-08-16",
+      "ratingMethodAutoYN": true,
+      "ratingMethod": "PRK",
+      "customerLocktype": null,
+      "residenceType": null,
+      "residenceTypePlanned": null,
+      "residenceTypeSince": "",
+      "residenceTypeChangeDate": "",
+      "wmegResidenceCount": 0,
+      "questStatus": "N",
+      "questForeignExchangeFrom": "2016-08-16",
+      "questFreedUntil": "",
+      "questNote": null,
+      "conditionsYN": null,
+      "conditionsDeliveredAt": "",
+      "customerAssignmentNumber": [],
+      "oenbCustomerIdentnumber": 0,
+      "vatIdentifier": null,
+      "taxNumber": null,
+      "industryCodeNote": null,
+      "industryCode": "_PRIVAT-00",
+      "economyCode": null,
+      "foundationDate": "",
+      "numberOfEmployees": 0,
+      "entrepreneurSince": "",
+      "entrepreneurSinceUnknownCode": null,
+      "iSOCodeResidenceCountry": "AT",
+      "totalTurnoverSource": null,
+      "totalTurnoverAmount": 0,
+      "totalTurnoverDate": "",
+      "totalTurnoverAmountUnit": null,
+      "balanceCurrency": null,
+      "balanceDate": 0,
+      "annualReviewDate": "",
+      "annualReviewPeriodicity": null,
+      "customerIndividualData": [],
+      "membership": [
+        {
+          "membershipCode": "N"
+        },
+        {
+          "membershipCode": "N"
+        },
+        {
+          "membershipCode": "N"
+        },
+        {
+          "membershipCode": "N"
+        },
+        {
+          "membershipCode": "N"
+        },
+        {
+          "membershipCode": "N"
+        },
+        {
+          "membershipCode": "N"
+        },
+        {
+          "membershipCode": "N"
+        },
+        {
+          "membershipCode": "N"
+        },
+        {
+          "membershipCode": "N"
+        }
+      ],
+      "customerNote": null,
+      "noMarketingNotificationSSC": null,
+      "marketingAcceptenceYN": "",
+      "customerFIP": "SAKRA   XKP68N8228200000201708091310254",
+      "pepStatus": "N",
+      "foreignExchangeStatusCode": null,
+      "oenbSectorCode": "0",
+      "dataUsageYN": true,
+      "customerNewspaperYN": true,
+      "crmRelevantYN": null,
+      "advisorCategorySource": null,
+      "advisorCategoryChangeReason": null,
+      "advisorCategoryDate": "",
+      "finrepCounterparty": "HO",
+      "businessOwnerCode": null,
+      "businessOwnerDescription": null,
+      "customerRegistrationChannel": "B",
+      "reRatingDate": "",
+      "requestedCustomerCode": null,
+      "requestedCustomerDate": "",
+      "toDoQuestCreatedYn": "N",
+      "dataUsageCode": "UNB",
+      "dataUsageChannel": null,
+      "dataUsageChangeDate": "2016-08-16",
+      "economySegment": "_PRIVAT",
+      "esaSectorAutomaticYN": true,
+      "easSectorOenb": "1400B",
+      "dominanceType": "Z",
+      "newFoundation": false,
+      "newFoundationDisplay": false,
+      "creditorAmountLimit": 100000,
+      "uCoinStatus": null,
+      "uCoinStatusDate": "",
+      "businessInfoElectronicYN": null,
+      "electronicBusinessInfoCode": "UNB",
+      "personData": {
+        "surNameU": "MassenDChrwFiMu",
+        "firstNameU": "KundeCiIQbm",
+        "academicTitleU": null,
+        "titleText": null,
+        "gender": "M",
+        "birthday": "1988-09-01",
+        "birthName": null,
+        "socialInsuranceNumber": 1112010988,
+        "socialInsuranceType": "ASVG",
+        "atNoSocialInsuranceCompanyYN": false,
+        "tradingName": null,
+        "maritalStatus": null,
+        "cityOfBirthU": "Wien",
+        "dateOfDeath": "",
+        "numberOfChildren": 0,
+        "childrenYN": null,
+        "numberOfChildrenCareDuty": 0,
+        "employerIndustyCode": null,
+        "employedSince": "",
+        "employedAt": "Test GmbH",
+        "employmentType": "A",
+        "employmentTypeText": null,
+        "occupationInterruptType": null,
+        "occupationInterruptSince": "",
+        "ocupationType": "UÃ–BS",
+        "incomeSource": "1",
+        "incomeCurrency": "EUR",
+        "monthlyIncome": 3000,
+        "otherMonthlyIncome": 0,
+        "monthlyIncomeDate": "2017-10-09",
+        "otherMonthlyIncomeType": "0",
+        "incomeComment": null,
+        "education": "ABHS",
+        "university": null,
+        "subjectOfStudy": null,
+        "studyFinalizationDate": "",
+        "proofOfStudyDate": "",
+        "matriculationNumber": null,
+        "customerIdentifierUser": null,
+        "instituteNumberUser": 0,
+        "employeeNumberUser": 0,
+        "hiddenEmployeeYN": null,
+        "employeeType": null,
+        "countryOfBirth": "AT",
+        "countryOfBirhtUnknownYN": false,
+        "countryOfBirhtUnknownComment": null,
+        "languageCode": [],
+        "nonGermanSpeakerYN": "N"
+      },
+      "companyData": {
+        "nameLongU": [],
+        "termOfLongname": [],
+        "registerType": null,
+        "registerName": null,
+        "registerInitiationDate": "",
+        "registerNumber": null,
+        "iSOCodeRegisterCountry": null,
+        "capitalType": null,
+        "totalCapital": 0,
+        "capitalUnit": null,
+        "capitalCurrency": null,
+        "bankCode": null,
+        "stockExchangeListedYN": null,
+        "legalFormSince": "",
+        "legalFormComment": null,
+        "legalForm": null,
+        "vvoeNumber": null
+      }
+    },
+    "lastModificationIn": {
+      "marketingAcceptenceCode": "mar",
+      "channelCode": "channe",
+      "customerIdentifierLastChange": "customerIdentifierLastChange"
+    },
+    "address": {
+      "addressIdentifier": "",
+      "addressRelation": {
+        "addressType": "addr",
+        "mainContactYN": true,
+        "businessInfoYN": "N",
+        "marketingYN": "N",
+        "addressStatus": "a",
+        "externalAddressCode": "e",
+        "customerIdentifier": ""
+      }
+    },
+    "mainAdvisor": {
+      "customerSupportIdentifier": "D133FAB22B90A504",
+      "customerIdentifierAdvisor": "CCB4AC662721DB04",
+      "customerShortCodeAdvisor": null,
+      "customerSupportType": "KUBE",
+      "advisorType": "P",
+      "mainAdvisorYN": true,
+      "customerSupportFIP": "SD6QA   XKB50N8228200000201608161421122"
+    }
+  }
+}
