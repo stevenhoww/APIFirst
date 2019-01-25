@@ -1,0 +1,155 @@
+node {
+
+// *********************************************************************************
+// * Input Parameters to this pipeline are:                                        *
+// * vseName        - the name of the VSE as known by the Registry                 *
+// * registryServer - the FQDN of the server where the Registry Service is running *
+// *                                                                               *
+// * Pull files from a Git repository, get a list of files ending in .MAR, then    *
+// * iterate over the list and try to deploy the MARs. Build an XML payload of the *
+// * steps executed and actions taken. Later this XML might be sent as an email    *
+// * to someone.                                                                   *
+// *********************************************************************************
+    def VSE_ID = 'em2ApF_ybKWMtHC7v41xEMi8yqKBNJ9QkCOvs2t39_Rp'
+    def vseName='VSE'
+    def registryServer='localhost'
+    def DT_USER='admin'
+    def DT_PWD='admin'
+    def thisFile = ''
+    def eofilename = 0
+    def thisVsName = ''
+	def marFiles   = []		// define an array of MAR files
+	List<String> marFileList = new ArrayList()	// define an array of corresponding MAR file locations
+	    
+    // download MAR
+    stage('Download MAR from GitHub') {
+
+       checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+   browser: [$class: 'CGit', repoUrl: ''], 
+   doGenerateSubmoduleConfigurations: false, extensions:  [
+        [$class: 'SparseCheckoutPaths',  sparseCheckoutPaths:[[$class:'SparseCheckoutPath', path:'mars/']]]], 
+   submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'c47f786a-0500-478e-8045-9e0a9a3ae611',
+   url: 'https://github.com/stevenhoww/APIFirst']]])
+
+        
+     } // end stage
+        
+        
+    // check the MAR files
+    stage('List the MAR Files') {
+
+    	// *******************************************************
+        // * Iterate over files -- figure out a way to pull only *
+        // * the desired MAR files based on Version or branch    *
+        // *******************************************************
+
+        def files = findFiles(glob: '**/*.mar')
+        
+        // iterate the file list
+        for ( ndx = 0; ndx < files.size(); ndx++) {
+            echo """${files[ndx].name} ${files[ndx].path} ${files[ndx].directory} ${files[ndx].length} ${files[ndx].lastModified}"""
+            thisFile = """${files[ndx].name}"""
+//            echo 'thisFile = ' + thisFile
+
+			// add the MAR filename into a List for later processing
+			if ( thisFile.contains(".mar") && !thisFile.contains(".mari") ) 
+    			marFileList.add( """${files[ndx].name}""" )
+
+            eofilename = thisFile.indexOf('.')
+//            echo 'eofilename is ' + eofilename
+
+            // Add logic here to determine if this MAR is one of the MARs to be pushed
+            // to the VSE
+                
+            thisVsName = thisFile.substring(0, eofilename)			
+//            echo 'thisVsName is ' + thisVsName
+
+		    // Add VS MAR into array for processing later	
+			marFiles << thisVsName
+
+        } // end for loop      
+
+    } // end stage
+        
+        
+    stage('Deleting MARs From VSE') {
+        // *******************************************************
+        // * For each MAR in the list; execute a loop to remove  *
+        // * from VSE                                            *
+        // *******************************************************
+                
+        // Try to remove services before deploying. If service does not exist an HTTP 500 will occur
+       // withCredentials([usernamePassword(credentialsId: 'devtest_user', passwordVariable: 'DT_PWD', usernameVariable: 'DT_USER')]) {
+		
+			for ( idx = 0; idx < marFiles.size(); idx++) {
+				def svcUri = vseName + '/' + marFiles[idx]
+				
+				// Delete the MAR stored in thisVsName
+				VSE_response = bat returnStdout: true, script: """curl -i -X DELETE -u ${DT_USER}:${DT_PWD} \"http://${registryServer}:1505/api/Dcm/VSEs/${svcUri}\" """
+//				echo VSE_response
+				
+				// find the return code
+				echo 'svcURI is: ' + svcUri
+				
+				def sPos = VSE_response.indexOf('HTTP/1.1 ')	
+				if ( sPos > 1 )
+					echo 'HTTP Delete Response code is: ' + VSE_response.substring( sPos + 9, sPos + 12)
+				else
+					echo 'HTTP Delete Response code is: ' + 'UNKNOWN'
+			} // END for Remove all MARs
+			
+        //} // end delete VS with creds
+                
+    } // end Stage
+    
+    
+        
+    stage('Adding MARs for this release to VSE') {
+        
+        // Add MAR to VSE
+       // withCredentials([usernamePassword(credentialsId: 'devtest_user', passwordVariable: 'DT_PWD', usernameVariable: 'DT_USER')]) {
+		
+			//for ( idx = 0; idx < marFileList.size(); idx++) {
+				for ( idx = 0; idx < marFiles.size(); idx++) {
+				//def marfile = "\"" + marFileList.get(idx) + "\""
+				def marfile =  marFiles[idx]
+				echo 'MAR to be deployd is: ' + marfile
+
+				// Send MAR file as attachment to VSE
+				//VSE_response = bat returnStdout: true, script: """curl -i -X POST -u ${DT_USER}:${DT_PWD} \"http://${registryServer}:1505/api/Dcm/VSEs/${vseName}/actions/deployMar\" -H \"content-type: multipart/form-data\" -F file=@/mars/${marfile} """
+                 VSE_response = svDeployVirtualService vseName: 'VSE', marFilesPaths: """mars/${marfile}.mar"""  
+
+				}	
+				
+			
+       // } // end Add with Creds
+        
+    } // end Stage
+    
+    stage('Get VSE Service List') {
+
+     
+            def VSE_rsp = bat returnStdout: true, script: """curl -X GET -u ${DT_USER}:${DT_PWD} \"http://${registryServer}:1505/lisa-virtualize-invoke/api/v2/vses\" """
+            
+            echo 'VSE Response is: ' + VSE_rsp
+            
+            // this response also contains the HTTP headers so skip past them to the JSON data
+            def start = VSE_rsp.indexOf('{')
+            
+            def rsp = readJSON text: VSE_rsp.substring( start )
+            
+            def uri = rsp['_embedded'].toString()
+            echo 'Parsed uri is: ' + uri
+            
+            start = uri.indexOf('invoke/api/v2/vses/') + 19
+            def end   = uri.indexOf('"}}')
+            echo 'Start Pos is: ' + start + ' End Pos is: ' + end
+            VSE_ID = uri.substring( start, end)
+            echo 'VSE ID is: ' + VSE_ID
+            
+            VSE_rsp = bat returnStdout: true, script: """curl -X GET -u ${DT_USER}:${DT_PWD} \"http://${registryServer}:1505/lisa-virtualize-invoke/api/v2/vses/${VSE_ID}/services\" """
+            
+      
+     } 
+        
+} // end node
